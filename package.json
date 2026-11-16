@@ -1,0 +1,17 @@
+{
+  "name": "skorplus-site",
+  "private": true,
+  "version": "2.0.0",
+  "description": "SkorPlus showcase site (Vite + React, twks.ch design language)",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build", "preview": "vite preview --port 4173" },
+  "dependencies": {
+    "@fontsource/instrument-sans": "^5.1.1",
+    "lenis": "^1.1.18",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.0"
+  },
+  "devDependencies": { "@vitejs/plugin-react": "^4.3.0", "vite": "^6.0.0" },
+  "engines": { "node": ">=18" }
+}
