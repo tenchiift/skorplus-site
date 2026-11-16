@@ -5,6 +5,7 @@ import CtaRow from "../components/CtaRow";
 import FeatureBentoPanel from "../components/FeatureBentoPanel";
 import MorphingTabs from "../components/MorphingTabs";
 import Reveal from "../components/Reveal";
+import CodeShowcase from "../components/CodeShowcase";
 import RingParticles from "../components/RingParticles";
 import SurfaceSwitcher from "../components/SurfaceSwitcher";
 import TestimonialMarquee from "../components/TestimonialMarquee";
@@ -189,6 +190,8 @@ export default function Overview() {
           </Reveal>
         </div>
       </section>
+
+      <CodeShowcase />
 
       <section className="section section-tight">
         <div className="sec-head">
