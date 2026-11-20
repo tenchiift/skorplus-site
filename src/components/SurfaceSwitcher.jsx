@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { APP_URL } from "../content";
-import Reveal from "./Reveal";
+import MorphingTabs from "./MorphingTabs";
 
 const SURFACES = [
   {
@@ -8,6 +8,7 @@ const SURFACES = [
     tag: "AI Study Buddy",
     title: "Guided explanations on demand",
     badge: "AI Chat · /ai-chat",
+    video: "/video/ai-study-buddy.webm",
     shot: null,
     placeholderLabel: "Add AI Chat phone screenshot",
     stack: ["OpenRouter", "Vercel Serverless", "Supabase Auth & DB"],
@@ -40,6 +41,7 @@ const SURFACES = [
     tag: "Past Papers",
     title: "Real exam sets, updated live",
     badge: "Live Sync",
+    video: "/video/past-papers.mov",
     shot: "/screenshots/mobile-2.png",
     stack: ["Supabase DB", "Supabase Storage", "Lecturer Portal"],
     summary:
@@ -69,12 +71,63 @@ const SURFACES = [
 
 export default function SurfaceSwitcher() {
   const [activeId, setActiveId] = useState(SURFACES[0].id);
-  const current = SURFACES.find((s) => s.id === activeId) || SURFACES[0];
+
+  const surfaceTabs = useMemo(
+    () =>
+      SURFACES.map((surface) => ({
+        id: surface.id,
+        label: surface.tag,
+        content: (
+          <div className="surface-panel-grid">
+            <div className="surface-detail">
+              <div className="surface-stack-pills">
+                {surface.stack.map((tech) => (
+                  <span key={tech} className="surface-tech-pill">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <h3 className="surface-detail-title">{surface.tag}</h3>
+              <p className="surface-detail-summary grey-02">{surface.summary}</p>
+              <ul className="surface-build-list">
+                {surface.build.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="surface-phone-col">
+              <div className="surface-phone-frame">
+                {surface.video ? (
+                  <video
+                    key={surface.video}
+                    src={surface.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    aria-label={`${surface.tag} mobile preview`}
+                  />
+                ) : surface.shot ? (
+                  <img src={surface.shot} alt={`${surface.tag} mobile preview`} loading="lazy" />
+                ) : (
+                  <div className="surface-phone-placeholder">
+                    <span className="surface-badge">{surface.badge}</span>
+                    <p className="grey-02">{surface.placeholderLabel}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ),
+      })),
+    [],
+  );
 
   return (
     <section className="section section-tight">
       <div className="sec-head">
-        <h2 className="lowercase">Core surfaces</h2>
+        <h2 className="lowercase">Core surfaces · drag any tab to reorder</h2>
         <a className="cta-secondary grey-02 lowercase" href={APP_URL} target="_blank" rel="noreferrer">
           Open app
           <span className="cta-arrow" aria-hidden="true">
@@ -84,62 +137,12 @@ export default function SurfaceSwitcher() {
         </a>
       </div>
 
-      <Reveal as="div" className="surface-switcher">
-        {/* Column 1: Surface Name / Tabs */}
-        <div className="surface-tabs" role="tablist" aria-label="SkorPlus surfaces">
-          {SURFACES.map((s, idx) => {
-            const selected = s.id === activeId;
-            return (
-              <button
-                key={s.id}
-                type="button"
-                role="tab"
-                aria-selected={selected}
-                className={`surface-tab ${selected ? "is-active" : ""}`.trim()}
-                onClick={() => setActiveId(s.id)}
-              >
-                <span className="tool-num">{String(idx + 1).padStart(2, "0")}</span>
-                <div>
-                  <span className="surface-tab-title">{s.tag}</span>
-                  <span className="surface-tab-sub">{s.title}</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Column 2: What we actually built */}
-        <div className="surface-detail" role="tabpanel">
-          <div className="surface-stack-pills">
-            {current.stack.map((tech) => (
-              <span key={tech} className="surface-tech-pill">
-                {tech}
-              </span>
-            ))}
-          </div>
-          <h3 className="surface-detail-title">{current.tag}</h3>
-          <p className="surface-detail-summary grey-02">{current.summary}</p>
-          <ul className="surface-build-list">
-            {current.build.map((line) => (
-              <li key={line}>{line}</li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Column 3: Phone-sized screenshot */}
-        <div className="surface-phone-col">
-          <div className="surface-phone-frame">
-            {current.shot ? (
-              <img src={current.shot} alt={`${current.tag} mobile preview`} loading="lazy" />
-            ) : (
-              <div className="surface-phone-placeholder">
-                <span className="surface-badge">{current.badge}</span>
-                <p className="grey-02">{current.placeholderLabel}</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </Reveal>
+      <MorphingTabs
+        items={surfaceTabs}
+        value={activeId}
+        onValueChange={setActiveId}
+        ariaLabel="SkorPlus core surfaces"
+      />
     </section>
   );
 }

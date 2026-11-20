@@ -4,6 +4,7 @@ import ContactChat from "./components/ContactChat";
 import Footer from "./components/Footer";
 import MobileMenu from "./components/MobileMenu";
 import Nav from "./components/Nav";
+import UserCursor from "./components/UserCursor";
 import useSmoothScroll from "./lib/useSmoothScroll";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -62,6 +63,7 @@ export default function App() {
 
   return (
     <>
+      <UserCursor />
       <BodyTheme />
       <ScrollToTop />
       <Nav menuOpen={menuOpen} onOpenContact={openChat} onOpenMenu={toggleMenu} />

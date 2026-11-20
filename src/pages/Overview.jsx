@@ -1,107 +1,109 @@
-import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { APP_URL, CATEGORIES, CTA, INTRO, REPO_URL, REVIEWS, STACK, WHY } from "../content";
+import { APP_URL, INTRO, REPO_URL, REVIEWS, STACK, WHY } from "../content";
 import CtaRow from "../components/CtaRow";
 import FeatureBentoPanel from "../components/FeatureBentoPanel";
-import MorphingTabs from "../components/MorphingTabs";
+import FlyingCard from "../components/FlyingCard";
 import Reveal from "../components/Reveal";
 import CodeShowcase from "../components/CodeShowcase";
-import RingParticles from "../components/RingParticles";
-import SurfaceSwitcher from "../components/SurfaceSwitcher";
+import ScrollFeatures from "../components/ScrollFeatures";
 import TestimonialMarquee from "../components/TestimonialMarquee";
 import VideoShowcase from "../components/VideoShowcase";
 import logoProject from "../logo/logo project.png";
-import useDesktop from "../lib/useDesktop";
 
 export default function Overview() {
-  const desktop = useDesktop();
-  const [activeTab, setActiveTab] = useState("all");
-  const external = /^https?:/.test(APP_URL);
-
-  const featureTabs = useMemo(
-    () =>
-      [{ id: "all", label: "All" }, ...CATEGORIES].map((cat) => ({
-        id: cat.id,
-        label: cat.label,
-        content: <FeatureBentoPanel categoryId={cat.id} />,
-      })),
-    [],
-  );
-
   return (
     <>
-      <section className="hero">
-        <div className="hero-bg" aria-hidden="true">
-          {desktop && <RingParticles count={150} />}
+      <section className="hero-wellifize">
+        <div className="hero-w-head">
+          <img src={logoProject} alt="SkorPlus" className="hero-w-logo" />
+          <h1 className="hero-w-title">
+            Learn Smarter,
+            <br />
+            Score Better.
+          </h1>
+          <p className="hero-w-sub">
+            Built for <strong>KPMIM &amp; MAT1113</strong> students <br></br>track your semester,
+            practise real past papers, and get guided AI explanations in one place.
+          </p>
         </div>
-        <div className="hero-scrim" aria-hidden="true" />
 
-        <div className="hero-split">
-          <div className="hero-copy">
-            <div className="hero-brand">
-              <img src={logoProject} alt="SkorPlus" className="hero-logo" />
-              <span className="surface-badge">A study companion for the whole semester</span>
-            </div>
-            <h1 className="text-big lowercase">Learn smarter, score better.</h1>
-            <p className="hero-sub grey-02">{CTA.body}</p>
-            <div className="hero-actions">
-              <a
-                className="cta-button lowercase"
-                href={APP_URL}
-                {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
-              >
-                <span>{CTA.button}</span>
-                <span className="cta-arrow" aria-hidden="true">
-                  <span>→</span>
-                  <span>→</span>
+        <div className="hero-w-stage">
+          {/* Left Floating Pills + Mini Card */}
+          <div className="hero-w-col is-left">
+            <FlyingCard phase={0.2} floatAmplitude={2.5}>
+              <div className="hero-w-pill is-offset-1 is-non-clickable">
+                <span className="hero-w-icon is-lavender" aria-hidden="true">✦</span>
+                <span className="hero-w-pill-label">AI Study Buddy</span>
+              </div>
+            </FlyingCard>
+
+            <FlyingCard phase={1.7} floatAmplitude={3} className="is-offset-2">
+              <div className="hero-w-pill is-non-clickable">
+                <span className="hero-w-icon is-blue" aria-hidden="true">⌘</span>
+                <span className="hero-w-pill-label">Scan &amp; Solve</span>
+              </div>
+            </FlyingCard>
+
+            <FlyingCard phase={3.1} floatAmplitude={3.5} tiltStrength={14}>
+              <div className="hero-w-card is-non-clickable">
+                <div className="hero-w-card-head">
+                  <strong>AI Study Buddy</strong>
+                  <span>Stuck on a calculus step?</span>
+                </div>
+                <span className="hero-w-card-btn is-non-clickable">
+                  Open SkorPlus
                 </span>
-              </a>
-              <Link className="cta-secondary grey-02 lowercase" to="/features">
-                Explore features
-                <span className="cta-arrow" aria-hidden="true">
-                  <span>→</span>
-                  <span>→</span>
-                </span>
-              </Link>
-            </div>
+              </div>
+            </FlyingCard>
           </div>
 
-          <div className="hero-showcase">
-            <div className="hero-shot-desktop">
-              <img
-                src="/screenshots/desktop.png"
-                alt="SkorPlus web app on desktop"
-                loading="eager"
-              />
-            </div>
-            <div className="hero-shot-ipad">
-              <img
-                src="/screenshots/ipad.png"
-                alt="SkorPlus web app on iPad Pro 11"
-                loading="eager"
-              />
-            </div>
-            <div className="hero-shot-mobiles">
-              <div className="hero-shot-mobile is-back">
-                <img
-                  src="/screenshots/mobile-2.png"
-                  alt="SkorPlus mobile view 2"
-                  loading="eager"
-                />
+          {/* Center Upright iPhone */}
+          <div className="hero-w-phone">
+            <img
+              src="/screenshots/mobile-1.png"
+              alt="SkorPlus Semester Pulse dashboard"
+              loading="eager"
+            />
+          </div>
+
+          {/* Right Floating Pill + Live Stats Card */}
+          <div className="hero-w-col is-right">
+            <FlyingCard phase={0.9} floatAmplitude={2.8}>
+              <div className="hero-w-pill is-non-clickable">
+                <span className="hero-w-icon is-mint" aria-hidden="true">✓</span>
+                <span className="hero-w-pill-label">Past Papers · Live Sync</span>
               </div>
-              <div className="hero-shot-mobile is-front">
-                <img
-                  src="/screenshots/mobile-1.png"
-                  alt="SkorPlus mobile view 1"
-                  loading="eager"
-                />
+            </FlyingCard>
+
+            <FlyingCard phase={2.4} floatAmplitude={3.5} tiltStrength={14}>
+              <div className="hero-w-card hero-w-stats is-non-clickable">
+                <div className="hero-w-stats-top">
+                  <span>Updated live · Semester Pulse</span>
+                  <span aria-hidden="true">↻</span>
+                </div>
+                <ul className="hero-w-stats-list">
+                  <li>
+                    <span aria-hidden="true">◷</span>
+                    <span>Week 7 · Day 5</span>
+                  </li>
+                  <li>
+                    <span aria-hidden="true">⚡</span>
+                    <span>59 days to finals</span>
+                  </li>
+                  <li>
+                    <span aria-hidden="true">✦</span>
+                    <span>Zep Quiz ready</span>
+                  </li>
+                </ul>
               </div>
-            </div>
+            </FlyingCard>
           </div>
         </div>
       </section>
 
       <VideoShowcase />
+
+      <ScrollFeatures />
 
       <section className="section section-tight">
         <div className="why-split">
@@ -141,11 +143,9 @@ export default function Overview() {
         </div>
       </section>
 
-      <SurfaceSwitcher />
-
       <section className="section section-tight" id="features">
         <div className="sec-head">
-          <h2 className="lowercase">Features · drag any tab to reorder</h2>
+          <h2 className="lowercase">Features</h2>
           <Link className="cta-secondary grey-02 lowercase" to="/features">
             All features
             <span className="cta-arrow" aria-hidden="true">
@@ -155,12 +155,7 @@ export default function Overview() {
           </Link>
         </div>
 
-        <MorphingTabs
-          items={featureTabs}
-          value={activeTab}
-          onValueChange={setActiveTab}
-          ariaLabel="SkorPlus features by category"
-        />
+        <FeatureBentoPanel categoryId="all" />
       </section>
 
       <section className="section section-tight">
